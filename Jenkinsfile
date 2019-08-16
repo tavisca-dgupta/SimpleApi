@@ -44,7 +44,6 @@ pipeline {
             steps {
                         echo 'run docker'
                         bat 'docker build --tag hellohiapi -f dockerfile .'
-                        bat 'docker run --rm -p 4000:11180/tcp hellohiapi'
 
             }
         }
@@ -54,18 +53,11 @@ pipeline {
         	steps
         	{
         		echo 'push the image'
-        		bat 'docker push hellohiapi'
-        	}
-        }
-
-        stage('delete docker image')
-        {
-        	steps
-        	{
-        		echo 'push the image'
         		bat 'docker push dharna138/simple-webapi:hellohiapi'
         	}
         }
+
+        
 
         
     }
