@@ -106,12 +106,7 @@ stage('Login'){
         	steps
         	{
         		echo 'run the image'
-        		bat '''
-				if(docker inspect -f {{.State.Running}} %DOCKER_CONTAINER_NAME%)
-				then
-					docker container rm -f %DOCKER_CONTAINER_NAME%
-				fi
-			    '''
+        		
         		bat 'docker run --name %DOCKER_CONTAINER_NAME% -p 4000:11180 api'
 
         	}
