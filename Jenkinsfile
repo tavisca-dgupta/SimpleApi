@@ -4,6 +4,8 @@ pipeline {
     registry = "dharna138/simple-webapi"
     registryCredential = 'Qwerty@123'
   }
+ 
+		
 
     parameters {
         string(defaultValue: "HelloHiApi.sln", description: 'Solution file name', name: 'solutionName')
@@ -68,15 +70,14 @@ pipeline {
         {
         	steps
         	{
-        		echo 'push the image'
+        		withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
 
-        		script {
-        		  docker.withRegistry( '', registryCredential ) {
- 					def customImage = docker.build("my-image":"${DOCKER_FILE}")
-                    /* Push the container to the custom Registry */
-                    customImage.push()          			}
-        		}
-        	}
+			docker.withRegistry('', 'docker-hub-credentials') {
+				sh "docker login -u ${USERNAME} -p ${PASSWORD}"
+				echo "yeahhhhhhhhhhh loginnnnn "
+				myImage.push("hellohiapi")
+					myImage.push("latest")
+		}
         
         }
 
