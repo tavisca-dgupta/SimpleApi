@@ -112,7 +112,7 @@ stage('Upload'){
         	steps
         	{
         		echo 'run the image'
-        		bat 'docker run -p 4000:11180 api'
+        		bat 'docker run -p 4000:11180 latest'
         	}
         }
 
