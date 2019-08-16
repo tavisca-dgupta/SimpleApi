@@ -4,6 +4,10 @@ pipeline {
     parameters {
         string(defaultValue: "HelloHiApi.sln", description: 'Solution file name', name: 'solutionName')
         string(defaultValue: "HelloHiApi.Test/HelloHiApi.Test.csproj", description: 'Test file name', name: 'testName')
+			string(name: 'DOCKER_FILE',
+			       defaultValue: 'simpleapi')
+		    string(name: 'DOCKER_CONTAINER_NAME',
+			       defaultValue: 'simpleapi-container')
     }
     stages {
         stage('Restore') {
@@ -40,17 +44,21 @@ pipeline {
 
         }
 
-        stage('deploy') {
-            steps {
-                        echo 'run docker'
-                        bat 'docker build --tag hellohiapi -f dockerfile .'
-
-            }
+        stage('build') {
+             steps{
+			    bat '''
+				if(docker inspect -f {{.State.Running}} ${DOCKER_CONTAINER_NAME})
+				then
+					docker container rm -f ${DOCKER_CONTAINER_NAME}
+				fi
+			    '''
+			    bat 'docker build -t ${DOCKER_FILE} -f Dockerfile .'
+			 }
         }
         stage('tag the image') {
             steps {
-                        echo 'run docker'
-                        bat 'docker tag hellohiapi:latest dharna138/simple-webapi:helloapi'
+                        echo 'tag docker'
+                        bat 'docker tag ${DOCKER_FILE}:latest dharna138/simple-webapi:${DOCKER_FILE}'
 
             }
         }
@@ -62,7 +70,7 @@ pipeline {
         	steps
         	{
         		echo 'push the image'
-        		bat 'docker push dharna138/simple-webapi:helloapi'
+        		bat 'docker push dharna138/simple-webapi:${DOCKER_FILE}'
         	}
         }
 
@@ -71,7 +79,7 @@ pipeline {
         	steps
         	{
         		echo 'untag the image'
-        		bat 'docker rmi helloapi'
+        		bat 'docker rmi ${DOCKER_FILE}'
         	}
         }
         stage('pull docker image')
@@ -79,7 +87,7 @@ pipeline {
         	steps
         	{
         		echo 'pull the image'
-        		bat 'docker pull dharna138/simple-webapi:helloapi'
+        		bat 'docker pull dharna138/simple-webapi:${DOCKER_FILE}'
         	}
         }
         stage('run docker image')
@@ -87,7 +95,7 @@ pipeline {
         	steps
         	{
         		echo 'run the image'
-        		bat 'docker run -p 4000:11180 helloapi'
+        		bat 'docker run -p 4000:11180 ${DOCKER_FILE}'
         	}
         }
 
