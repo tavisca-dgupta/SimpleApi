@@ -14,6 +14,11 @@ pipeline {
 			       defaultValue: 'simpleapi')
 		    string(name: 'DOCKER_CONTAINER_NAME',
 			       defaultValue: 'simpleapi-container')
+		     string(name: 'USERNAME', defaultValue: 'dharna138')
+        string(name: 'PASSWORD', defaultValue: 'Qwerty@123')
+                string(name: 'docker-hub-credentials', defaultValue: 'localhost:8080')
+
+
     }
     stages {
         stage('Restore') {
