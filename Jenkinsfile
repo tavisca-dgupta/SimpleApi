@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+    registry = "dharna138/simple-webapi"
+    registryCredential = 'Qwerty@123'
+  }
 
     parameters {
         string(defaultValue: "HelloHiApi.sln", description: 'Solution file name', name: 'solutionName')
@@ -67,13 +71,13 @@ pipeline {
         		echo 'push the image'
 
         		script {
-                docker.withRegistry('https://hub.docker.com/repository/registry-1.docker.io/dharna138/simple-webapi', 'Qwerty@123') {
-                    def customImage = docker.build("my-image:${hellohiapi}")
+        		  docker.withRegistry( '', registryCredential ) {
+ 					def customImage = docker.build("my-image":"${DOCKER_FILE}")
                     /* Push the container to the custom Registry */
-                    customImage.push()
-                }
+                    customImage.push()          			}
+        		}
         	}
-        }
+        
         }
 
         stage('untag docker image')
