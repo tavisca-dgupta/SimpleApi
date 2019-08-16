@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
     environment {
@@ -82,6 +83,7 @@ pipeline {
 				echo "yeahhhhhhhhhhh loginnnnn "
 				myImage.push("hellohiapi")
 					myImage.push("latest")
+				}
 		}
         
         }
