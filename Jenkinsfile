@@ -44,14 +44,9 @@ pipeline {
 
         }
 
-        stage('build') {
+        stage('docker build') {
              steps{
-			    bat '''
-				if(docker inspect -f {{.State.Running}} ${DOCKER_CONTAINER_NAME})
-				then
-					docker container rm -f ${DOCKER_CONTAINER_NAME}
-				fi
-			    '''
+			    
 			    bat 'docker build -t ${DOCKER_FILE} -f Dockerfile .'
 			 }
         }
@@ -99,7 +94,11 @@ pipeline {
         	}
         }
 
-        
+        post{
+	  		always{
+	    		  deleteDir()
+	  		}
+		}
 
         
     }
