@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
     environment {
@@ -84,6 +83,7 @@ pipeline {
 				myImage.push("hellohiapi")
 					myImage.push("latest")
 				}
+			}
 		}
         
         }
