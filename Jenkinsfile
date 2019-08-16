@@ -65,7 +65,13 @@ pipeline {
         	steps
         	{
         		echo 'push the image'
-        		bat 'docker push dharna138/simple-webapi:api'
+
+        		script {
+                docker.withRegistry('https://cloud.docker.com/repository/registry-1.docker.io/dharna138/simple-webapi', 'Qwerty@123') {
+                    def customImage = docker.build("my-image:${hellohiapi}")
+                    /* Push the container to the custom Registry */
+                    customImage.push()
+                }
         	}
         }
 
