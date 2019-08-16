@@ -82,7 +82,7 @@ stage('Upload'){
         stage('Tag docker image'){
             steps {
                 echo 'tag docker'
-                bat 'docker tag hellohiapi:latest sramdurg/repo45:latest'
+                bat 'docker tag hellohiapi:latest dharna138/simple-webapi:latest'
             }
         }
 
@@ -99,7 +99,7 @@ stage('Upload'){
         	steps
         	{
         		echo 'pull the image'
-        		bat 'docker pull dharna138/simple-webapi:api'
+        		bat 'docker pull dharna138/simple-webapi:latest'
         	}
         }
         stage('run docker image')
