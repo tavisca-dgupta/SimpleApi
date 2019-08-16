@@ -85,6 +85,12 @@ stage('Upload'){
                 bat 'docker tag hellohiapi:latest dharna138/simple-webapi:latest'
             }
         }
+        stage('Push the image'){
+            steps{
+                echo 'push the image'
+                bat 'docker push dharna138/simple-webapi:latest'
+            }
+        }
 
         stage('untag docker image')
         {
