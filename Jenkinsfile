@@ -64,32 +64,26 @@ pipeline {
         stage('tag the image') {
             steps {
                         echo 'tag docker'
-                        bat 'docker tag hellohiapi:latest dharna138/simple-webapi:api'
+                        bat 'docker tag hellohiapi:latest dharna138/simple-webapi:latest'
 
             }
         }
 
+stage('Upload'){
+            steps{
+                echo 'Login into docker'
+                bat 'docker login -u dharna138 -p Qwerty@123'
+                
+            }
+        }
 
 
-        stage('push docker image')
-        {
-        	steps
-        	{
-        		script{
-        		withCredentials([usernamePassword( credentialsId: 'docker-hub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-
-
-	docker.withRegistry('', 'docker-hub-credentials') {
-				sh "docker login -u ${USERNAME} -p ${PASSWORD}"
-				echo "yeahhhhhhhhhhh loginnnnn "
-				myImage.push("hellohiapi")
-					myImage.push("latest")
-}
-			
-				}
-			}
-		}
         
+        stage('Tag docker image'){
+            steps {
+                echo 'tag docker'
+                bat 'docker tag hellohiapi:latest sramdurg/repo45:latest'
+            }
         }
 
         stage('untag docker image')
