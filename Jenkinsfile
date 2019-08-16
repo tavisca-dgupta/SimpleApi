@@ -14,9 +14,8 @@ pipeline {
 			       defaultValue: 'simpleapi')
 		    string(name: 'DOCKER_CONTAINER_NAME',
 			       defaultValue: 'simpleapi-container')
-		     string(name: 'USERNAME', defaultValue: 'dharna138')
-        string(name: 'PASSWORD', defaultValue: 'Qwerty@123')
-                string(name: 'docker-hub-credentials', defaultValue: 'localhost:8080')
+		     string(name: 'username', defaultValue: 'dharna138')
+        string(name: 'password', defaultValue: 'Qwerty@123')
 
 
     }
@@ -72,7 +71,7 @@ pipeline {
 stage('Upload'){
             steps{
                 echo 'Login into docker'
-                bat 'docker login -u dharna138 -p Qwerty@123'
+                bat 'docker login -u %username% -p %password%'
                 
             }
         }
