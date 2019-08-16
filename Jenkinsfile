@@ -49,6 +49,24 @@ pipeline {
             }
         }
 
+        stage('push docker image')
+        {
+        	steps
+        	{
+        		echo 'push the image'
+        		bat 'docker push hellohiapi'
+        	}
+        }
+
+        stage('delete docker image')
+        {
+        	steps
+        	{
+        		echo 'push the image'
+        		bat 'docker push dharna138/simple-webapi:hellohiapi'
+        	}
+        }
+
         
     }
 }
