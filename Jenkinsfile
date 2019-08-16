@@ -47,13 +47,47 @@ pipeline {
 
             }
         }
+        stage('tag the image') {
+            steps {
+                        echo 'run docker'
+                        bat 'docker tag hellohiapi:latest dharna138/simple-webapi:helloapi'
+
+            }
+        }
+
+
 
         stage('push docker image')
         {
         	steps
         	{
         		echo 'push the image'
-        		bat 'docker push dharna138/simple-webapi:hellohiapi'
+        		bat 'docker push dharna138/simple-webapi:helloapi'
+        	}
+        }
+
+        stage('untag docker image')
+        {
+        	steps
+        	{
+        		echo 'untag the image'
+        		bat 'docker rmi helloapi'
+        	}
+        }
+        stage('pull docker image')
+        {
+        	steps
+        	{
+        		echo 'pull the image'
+        		bat 'docker pull dharna138/simple-webapi:helloapi'
+        	}
+        }
+        stage('run docker image')
+        {
+        	steps
+        	{
+        		echo 'run the image'
+        		bat 'docker run -p 4000:11180 helloapi'
         	}
         }
 
