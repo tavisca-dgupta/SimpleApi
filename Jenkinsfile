@@ -60,15 +60,9 @@ pipeline {
 			    bat 'docker build -t hellohiapi -f Dockerfile .'
 			 }
         }
-        stage('tag the image') {
-            steps {
-                        echo 'tag docker'
-                        bat 'docker tag hellohiapi:latest dharna138/simple-webapi:latest'
+        
 
-            }
-        }
-
-stage('Upload'){
+stage('Login'){
             steps{
                 echo 'Login into docker'
                 bat 'docker login -u %username% -p %password%'
@@ -81,13 +75,13 @@ stage('Upload'){
         stage('Tag docker image'){
             steps {
                 echo 'tag docker'
-                bat 'docker tag hellohiapi:latest dharna138/simple-webapi:latest'
+                bat 'docker tag hellohiapi:latest dharna138/simple-webapi:api'
             }
         }
         stage('Push the image'){
             steps{
                 echo 'push the image'
-                bat 'docker push dharna138/simple-webapi:latest'
+                bat 'docker push dharna138/simple-webapi:api'
             }
         }
 
@@ -104,7 +98,7 @@ stage('Upload'){
         	steps
         	{
         		echo 'pull the image'
-        		bat 'docker pull dharna138/simple-webapi:latest'
+        		bat 'docker pull dharna138/simple-webapi:api'
         	}
         }
         stage('run docker image')
@@ -112,7 +106,7 @@ stage('Upload'){
         	steps
         	{
         		echo 'run the image'
-        		bat 'docker run -p 4000:11180 latest'
+        		bat 'docker run -p 4000:11180 api'
         	}
         }
 
