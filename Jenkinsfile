@@ -47,13 +47,13 @@ pipeline {
         stage('docker build') {
              steps{
 			    
-			    bat 'docker build -t ${DOCKER_FILE} -f Dockerfile .'
+			    bat 'docker build -t hellohiapi -f Dockerfile .'
 			 }
         }
         stage('tag the image') {
             steps {
                         echo 'tag docker'
-                        bat 'docker tag ${DOCKER_FILE}:latest dharna138/simple-webapi:${DOCKER_FILE}'
+                        bat 'docker tag hellohiapi:latest dharna138/simple-webapi:api'
 
             }
         }
@@ -65,7 +65,7 @@ pipeline {
         	steps
         	{
         		echo 'push the image'
-        		bat 'docker push dharna138/simple-webapi:${DOCKER_FILE}'
+        		bat 'docker push dharna138/simple-webapi:api'
         	}
         }
 
@@ -74,7 +74,7 @@ pipeline {
         	steps
         	{
         		echo 'untag the image'
-        		bat 'docker rmi ${DOCKER_FILE}'
+        		bat 'docker rmi hellohiapi'
         	}
         }
         stage('pull docker image')
@@ -82,7 +82,7 @@ pipeline {
         	steps
         	{
         		echo 'pull the image'
-        		bat 'docker pull dharna138/simple-webapi:${DOCKER_FILE}'
+        		bat 'docker pull dharna138/simple-webapi:api'
         	}
         }
         stage('run docker image')
@@ -90,7 +90,7 @@ pipeline {
         	steps
         	{
         		echo 'run the image'
-        		bat 'docker run -p 4000:11180 ${DOCKER_FILE}'
+        		bat 'docker run -p 4000:11180 api'
         	}
         }
 
