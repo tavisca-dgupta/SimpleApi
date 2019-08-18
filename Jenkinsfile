@@ -40,7 +40,7 @@ pipeline {
 	    stage('SonarQube'){
             steps{
                 script {
-                  scannerHome = tool 'SonarQube Scanner 2.8'
+                  scannerHome = tool 'ApiSonarQube'
                 }
                 withSonarQubeEnv('SonarQube Scanner') {
                   bat "%scannerHome%/bin/sonar-scanner"
