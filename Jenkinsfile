@@ -36,6 +36,17 @@ pipeline {
             }
 
         }
+	    
+	    stage('SonarQube'){
+            steps{
+                script {
+                  scannerHome = tool 'SonarQube Scanner 2.8'
+                }
+                withSonarQubeEnv('SonarQube Scanner') {
+                  bat "%scannerHome%/bin/sonar-scanner"
+                }
+            }    
+        }
         stage('Test'){
             steps{
 
@@ -102,16 +113,7 @@ stage('Login'){
         	}
         }
 	    
-	    stage('SonarQube'){
-            steps{
-                script {
-                  scannerHome = tool 'SonarQube Scanner 2.8'
-                }
-                withSonarQubeEnv('SonarQube Scanner') {
-                  bat "%scannerHome%/bin/sonar-scanner"
-                }
-            }    
-        }
+	    
         
 
        
