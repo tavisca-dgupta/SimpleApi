@@ -65,23 +65,21 @@ pipeline {
 
         }
 
-        stage('docker build') {
+        stage('Docker build') {
              steps{
 			    
 			    bat 'docker build -t hellohiapi -f Dockerfile .'
-			 }
+		}
         }
         
 
-stage('Login'){
+	stage('Login'){
             steps{
                 echo 'Login into docker'
                 bat 'docker login -u %username% -p %password%'
                 
             }
         }
-
-
         
         stage('Tag docker image'){
             steps {
@@ -104,6 +102,7 @@ stage('Login'){
         		bat 'docker rmi hellohiapi'
         	}
         }
+	    
         stage('pull docker image')
         {
         	steps
@@ -113,16 +112,18 @@ stage('Login'){
         	}
         }
 	    
-	    
-        
-
-       
-
-        
+	    stage('run docker image')
+	    {
+		    steps
+		    {
+			    echo 'runnig the image'
+			    bat 'docker run --name %DOCKER_CONTAINER_NAME% -p 4000:11180 api'
+		    }
+	    }      
     }
      post{
-	  		always{
-	    		  deleteDir()
-	  		}
-		}
+	     always{
+		     deleteDir()
+	  	}
+	}
 }
