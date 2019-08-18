@@ -101,16 +101,18 @@ stage('Login'){
         		bat 'docker pull dharna138/simple-webapi:api'
         	}
         }
-        stage('run docker image')
-        {
-        	steps
-        	{
-        		echo 'run the image'
-        		
-        		bat 'docker run --name %DOCKER_CONTAINER_NAME% -p 4000:11180 api'
-
-        	}
+	    
+	    stage('SonarQube'){
+            steps{
+                script {
+                  scannerHome = tool 'SonarQube Scanner 2.8'
+                }
+                withSonarQubeEnv('SonarQube Scanner') {
+                  bat "%scannerHome%/bin/sonar-scanner"
+                }
+            }    
         }
+        
 
        
 
