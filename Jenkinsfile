@@ -40,11 +40,11 @@ pipeline {
 
         stage('SonarQube'){
         	steps{
-            bat """
-                        dotnet ${env.SonarqubePath}  begin /k:"%sonarProjectName%" /d:sonar.host.url=${env.SonarUrl}  /d:sonar.login="${env.SonarToken}"
+            bat '''
+                        dotnet %SonarqubePath%  begin /k:"%sonarProjectName%" /d:sonar.host.url=%SonarUrl%  /d:sonar.login="%SonarToken%"
                         dotnet  build
-                        dotnet ${env.SonarqubePath} end  /d:sonar.login="${env.SonarToken}"
-                """  
+                        dotnet %SonarqubePath% end  /d:sonar.login="%SonarToken%"
+                '''  
             }
         }
 	    
