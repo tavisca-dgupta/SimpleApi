@@ -37,7 +37,6 @@ pipeline {
             }
 
         }
-
         stage('SonarQube'){
         	steps{
             bat '''
@@ -47,7 +46,6 @@ pipeline {
                 '''  
             }
         }
-	    
 	    
         stage('Test'){
             steps{
@@ -74,8 +72,7 @@ pipeline {
 		}
         }
         
-
-	stage('Login'){
+		stage('Login'){
             steps{
                 echo 'Login into docker'
                 bat 'docker login -u %username% -p %password%'
@@ -95,9 +92,6 @@ pipeline {
                 bat 'docker push %username%/%reponame%:api'
             }
         }
-
-
-        
 
         stage('untag docker image')
         {
