@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  hellohiapi:
+    image: ${DOCKER_REGISTRY-}hellohiapi
+    build:
+      context: .
+      dockerfile: HelloHiApi/Dockerfile
