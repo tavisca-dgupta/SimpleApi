@@ -38,17 +38,7 @@ pipeline {
 
         }
 
-        stage('SonarQube'){
-        	steps{
-            bat '''
-                        dotnet %SonarqubePath%  begin /k:"%sonarProjectName%" /d:sonar.host.url=%SonarUrl%  /d:sonar.login="%SonarToken%"
-                        dotnet  build
-                        dotnet %SonarqubePath% end  /d:sonar.login="%SonarToken%"
-                '''  
-            }
-        }
-	    
-	    
+         
         stage('Test'){
             steps{
 
