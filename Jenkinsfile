@@ -37,16 +37,7 @@ pipeline {
 
         }
 	    
-	    stage('SonarQube'){
-            steps{
-                script {
-                  scannerHome = tool 'ApiSonarQube'
-                }
-                withSonarQubeEnv('SonarQube Scanner') {
-                  bat "%scannerHome%/bin/sonar-scanner"
-                }
-            }    
-        }
+	    
         stage('Test'){
             steps{
 
@@ -84,14 +75,26 @@ pipeline {
         stage('Tag docker image'){
             steps {
                 echo 'tag docker'
-                bat 'docker tag hellohiapi:latest dharna138/simple-webapi:api'
+                bat 'docker tag hellohiapi:latest %username%/simple-webapi:api'
             }
         }
         stage('Push the image'){
             steps{
                 echo 'push the image'
-                bat 'docker push dharna138/simple-webapi:api'
+                bat 'docker push %username%/simple-webapi:api'
             }
+        }
+
+
+        stage('SonarQube'){
+            steps{
+                script {
+                  scannerHome = tool 'ApiSonarQube'
+                }
+                withSonarQubeEnv('SonarQube Scanner') {
+                  bat "%scannerHome%/bin/sonar-scanner"
+                }
+            }    
         }
 
         stage('untag docker image')
@@ -108,7 +111,7 @@ pipeline {
         	steps
         	{
         		echo 'pull the image'
-        		bat 'docker pull dharna138/simple-webapi:api'
+        		bat 'docker pull %username%/simple-webapi:api'
         	}
         }
 	    
