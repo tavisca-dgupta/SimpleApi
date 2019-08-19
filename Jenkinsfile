@@ -35,7 +35,6 @@ pipeline {
                 echo 'build project'
                 bat 'dotnet build %solutionName% -p:Configuration=release -v:q'
             }
-
         }
         stage('SonarQube'){
         	steps{
