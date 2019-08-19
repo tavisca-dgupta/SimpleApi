@@ -41,9 +41,9 @@ pipeline {
         stage('SonarQube'){
         	steps{
             bat """
-                        dotnet ${SonarqubePath}  begin /k:"%sonarProjectName%" /d:sonar.host.url=${SonarUrl}  /d:sonar.login="${SonarToken}"
+                        dotnet ${env.SonarqubePath}  begin /k:"%sonarProjectName%" /d:sonar.host.url=${env.SonarUrl}  /d:sonar.login="${env.SonarToken}"
                         dotnet  build
-                        dotnet ${SonarqubePath} end  /d:sonar.login="${SonarToken}"
+                        dotnet ${env.SonarqubePath} end  /d:sonar.login="${env.SonarToken}"
                 """  
             }
         }
@@ -58,7 +58,7 @@ pipeline {
                 }
 
         }
-        stage('Publish'){
+        stage('Publish'){ 
             steps{
                 echo 'publish project'
                 bat 'dotnet publish %solutionName% -c RELEASE -o Publish'
