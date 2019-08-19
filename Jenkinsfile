@@ -16,7 +16,8 @@ pipeline {
 			       defaultValue: 'simpleapi-container')
 		     string(name: 'username', defaultValue: 'dharna138')
         string(name: 'password', defaultValue: 'Qwerty@123')
-
+        string(name: 'reponame', defaultValue: 'simple-webapi')
+ 		string(name: 'sonarProjectName', defaultValue: 'WebApi')
 
     }
     stages {
@@ -35,6 +36,14 @@ pipeline {
                 bat 'dotnet build %solutionName% -p:Configuration=release -v:q'
             }
 
+        }
+
+        stage('SonarQube'){
+            bat """
+                        dotnet ${SonarqubePath}  begin /k:"%sonarProjectName%" /d:sonar.host.url=${SonarUrl}  /d:sonar.login="${SonarToken}"
+                        dotnet  build
+                        dotnet ${SonarqubePath} end  /d:sonar.login="${SonarToken}"
+                """  
         }
 	    
 	    
@@ -75,27 +84,18 @@ pipeline {
         stage('Tag docker image'){
             steps {
                 echo 'tag docker'
-                bat 'docker tag hellohiapi:latest %username%/simple-webapi:api'
+                bat 'docker tag hellohiapi:latest %username%/%reponame%:api'
             }
         }
         stage('Push the image'){
             steps{
                 echo 'push the image'
-                bat 'docker push %username%/simple-webapi:api'
+                bat 'docker push %username%/%reponame%:api'
             }
         }
 
 
-        stage('SonarQube'){
-            steps{
-                script {
-                  scannerHome = tool 'ApiSonarQube'
-                }
-                withSonarQubeEnv('SonarQube Scanner') {
-                  bat "%scannerHome%/bin/sonar-scanner"
-                }
-            }    
-        }
+        
 
         stage('untag docker image')
         {
@@ -111,7 +111,7 @@ pipeline {
         	steps
         	{
         		echo 'pull the image'
-        		bat 'docker pull %username%/simple-webapi:api'
+        		bat 'docker pull %username%/%reponame%:api'
         	}
         }
 	    
